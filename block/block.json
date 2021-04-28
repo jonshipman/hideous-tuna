@@ -1,0 +1,14 @@
+{
+	"apiVersion": 2,
+	"name": "hideous-tuna/forms",
+	"title": "Hideous Tuna",
+	"category": "widgets",
+	"description": "Create and edit forms in the Block Editor (Gutenberg).",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "hideous-tuna",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}
