@@ -3,10 +3,13 @@ import { PanelBody, Button, Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { useAppContext } from '../Context';
 import { useForms } from '../state';
+import { useDispatch } from '@wordpress/data';
 
 export function Form() {
+	const { removeBlock } = useDispatch( 'core/block-editor' );
 	const {
 		attributes: { formName },
+		clientId,
 	} = useAppContext();
 	const [ confirmDeleteOpen, setOpen ] = useState( false );
 	const open = () => setOpen( true );
@@ -42,9 +45,11 @@ export function Form() {
 								<Button
 									isDestructive
 									className="db w-100"
-									onClick={ () =>
-										close() && remove( formName )
-									}
+									onClick={ () => {
+										remove( formName );
+										close();
+										removeBlock( clientId );
+									} }
 								>
 									{ sprintf(
 										__( 'Delete %s', 'hideous-tuna' ),

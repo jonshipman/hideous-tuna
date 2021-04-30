@@ -69,20 +69,13 @@ export function AppProvider( { children } ) {
 	);
 }
 
-export function QueryProvider( {
-	children,
-	attributes,
-	setAttributes,
-	isSelected,
-} ) {
+export function QueryProvider( { children, ...props } ) {
 	const windowVariables = window.HIDEOUS_TUNA || {};
 
 	return (
 		<QueryContext.Provider
 			value={ {
-				attributes,
-				setAttributes,
-				isSelected,
+				...props,
 				...windowVariables,
 			} }
 		>

@@ -50,7 +50,36 @@ function hideous_tuna_add_form( $form_name ) {
 	wp_cache_delete( 'hideous_tuna_get_forms' );
 	update_option( 'hideous_tuna_forms', $forms );
 
-	return true;
+	return $forms;
+}
+
+/**
+ * Updates the list of forms.
+ *
+ * @param string[] $forms Form names to replace the db entry with.
+ * @return WP_Error|bool WP_Error if form name already exists.
+ */
+function hideous_tuna_update_forms( $forms ) {
+	$existing_forms = hideous_tuna_get_forms();
+
+	$f = array();
+
+	foreach ( $forms as $name ) {
+			$f[] = $name;
+	}
+
+	$diff = array_diff( $existing_forms, $f );
+
+	if ( ! empty( $diff ) ) {
+		foreach ( $diff as $deleted_form ) {
+			hideous_tuna_delete_fields( $deleted_form );
+		}
+	}
+
+	wp_cache_delete( 'hideous_tuna_get_forms' );
+	update_option( 'hideous_tuna_forms', $f );
+
+	return $f;
 }
 
 /**

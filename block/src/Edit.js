@@ -20,10 +20,17 @@ import './styles/editor.scss';
  * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
  * @return {WPElement} Element to render.
  */
-export default function Edit( { attributes, setAttributes, isSelected } ) {
+export default function Edit( {
+	attributes,
+	setAttributes,
+	isSelected,
+	clientId,
+} ) {
 	return (
 		<div { ...useBlockProps() }>
-			<QueryProvider { ...{ attributes, setAttributes, isSelected } }>
+			<QueryProvider
+				{ ...{ attributes, setAttributes, isSelected, clientId } }
+			>
 				<AppProvider>
 					<Inspector />
 

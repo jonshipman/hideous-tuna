@@ -11,18 +11,19 @@ export function useData( {
 	endpoint,
 	rows: includeRows,
 } ) {
-	const [ { loading, error, data, active }, updateData ] = useReducer(
-		DataReducer,
-		{
-			error: false,
-			loading: false,
-			data: { [ key ]: initialData, rows: [] },
-			key,
-			initialData,
-			active: {},
-			includeRows,
-		}
-	);
+	const [
+		{ loading, error, data, active, queried },
+		updateData,
+	] = useReducer( DataReducer, {
+		error: false,
+		loading: false,
+		data: { [ key ]: initialData, rows: [] },
+		key,
+		initialData,
+		active: {},
+		includeRows,
+		queried: false,
+	} );
 
 	const { updateTimeout, mounted, previousData, cache, init } = useDataRefs( {
 		data,
@@ -195,7 +196,15 @@ export function useData( {
 				updateData( { action: 'DELETE', id } );
 
 				if ( Array.isArray( cachedData ) ) {
-					updateAsync( cachedData.filter( ( o ) => o.id !== id ) );
+					updateAsync(
+						cachedData.filter( ( o ) => {
+							if ( o?.id ) {
+								return o.id !== id;
+							}
+
+							return o !== id;
+						} )
+					);
 				} else {
 					const { [ id ]: _, ...newData } = cachedData || {};
 					updateAsync( newData );
@@ -262,6 +271,7 @@ export function useData( {
 		remove,
 		add,
 		set,
+		queried,
 	};
 
 	if ( includeRows ) {

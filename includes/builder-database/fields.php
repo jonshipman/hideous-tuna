@@ -67,6 +67,11 @@ function hideous_tuna_set_fields( $form_name, $fields ) {
 		}
 	}
 
+	$existing_forms = hideous_tuna_get_forms();
+	if ( ! in_array( $form_name, $existing_forms, true ) ) {
+		hideous_tuna_add_form( $form_name );
+	}
+
 	update_option( 'hideous_tuna_fields_' . $form_name, $fields );
 	wp_cache_delete( 'hideous_tuna_fields', $form_name );
 }

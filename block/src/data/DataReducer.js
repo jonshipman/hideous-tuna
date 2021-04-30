@@ -5,7 +5,7 @@ export function DataReducer(
 	state,
 	{ action, error = false, loading = false, data, key, active, id }
 ) {
-	let workingData, _key;
+	let workingData, _key, deleteArrayData;
 
 	if ( key ) {
 		_key = key;
@@ -14,6 +14,7 @@ export function DataReducer(
 	}
 
 	switch ( action ) {
+		case 'DELETE':
 		case 'UPDATE_ACTIVE':
 			if ( ! Array.isArray( state.data[ _key ] ) ) {
 				return {
@@ -67,9 +68,13 @@ export function DataReducer(
 
 		case 'DELETE':
 			if ( Array.isArray( state.data[ _key ] ) ) {
-				const deleteArrayData = state.data[ _key ].filter(
-					( f ) => f && f.id !== id
-				);
+				deleteArrayData = state.data[ _key ].filter( ( f ) => {
+					if ( f?.id ) {
+						return f.id !== id;
+					}
+
+					return f !== id;
+				} );
 
 				workingData = {
 					...state.data,
@@ -159,7 +164,7 @@ export function DataReducer(
 				active,
 			};
 		case 'LOADING':
-			return { ...state, loading: true };
+			return { ...state, loading: true, queried: true };
 		case 'FINISHED_LOADING':
 			return { ...state, error: false, loading: false };
 		case 'DELETE':

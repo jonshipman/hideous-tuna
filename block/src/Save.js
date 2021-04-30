@@ -16,6 +16,8 @@ import { RawHTML } from '@wordpress/element';
  */
 export default function save( { attributes } ) {
 	return (
-		<RawHTML>{ `[hideous_tuna_form id="${ attributes.formName }"]` }</RawHTML>
+		<RawHTML>{ `[hideous_tuna_form id="${
+			attributes.formName || ''
+		}"]` }</RawHTML>
 	);
 }

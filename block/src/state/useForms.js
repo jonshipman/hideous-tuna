@@ -14,10 +14,19 @@ import { useData } from '../data';
  * @return object { array forms }
  */
 export function useForms() {
-	const { forms, update, loading, error, refetch, remove, add } = useData( {
+	const {
+		forms,
+		update,
+		loading,
+		error,
+		refetch,
+		remove,
+		add,
+		queried,
+	} = useData( {
 		key: 'forms',
 		initialData: [],
 	} );
 
-	return { loading, forms, update, refetch, error, remove, add };
+	return { loading, forms, update, refetch, error, remove, add, queried };
 }

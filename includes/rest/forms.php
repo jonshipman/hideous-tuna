@@ -48,7 +48,7 @@ function hideous_tuna_rest_form_add() {
 		'/forms',
 		array(
 			'methods'             => WP_REST_Server::CREATABLE,
-			'callback'            => 'hideous_tuna_rest_form_add_cb',
+			'callback'            => 'hideous_tuna_rest_form_update_cb',
 			'permission_callback' => function() {
 				return current_user_can( 'edit_posts' );
 			},
@@ -63,7 +63,7 @@ add_action( 'rest_api_init', 'hideous_tuna_rest_form_add' );
  *
  * @return WP_REST_Response|WP_Error
  */
-function hideous_tuna_rest_form_add_cb() {
+function hideous_tuna_rest_form_update_cb() {
 	$json = file_get_contents( 'php://input' );
 	$data = json_decode( $json, true );
 
@@ -71,7 +71,7 @@ function hideous_tuna_rest_form_add_cb() {
 		return new WP_Error( 'no_data', __( 'No data submitted', 'hideous-tuna' ) );
 	}
 
-	$payload = hideous_tuna_add_form( $data );
+	$payload = hideous_tuna_update_forms( $data );
 
 	if ( ! is_wp_error( $payload ) ) {
 		$result            = array();
