@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from '@wordpress/element';
+import { createContext, useContext, useEffect, useRef } from '@wordpress/element';
 import { useFields } from './state';
 
 const AppContext = createContext( {} );
@@ -13,7 +13,7 @@ export function useAppContext() {
 }
 
 export function AppProvider( { children } ) {
-	const QueryValues = useQueryContext();
+	const {isSelected,...QueryValues} = useQueryContext();
 
 	const {
 		fields,
@@ -26,9 +26,19 @@ export function AppProvider( { children } ) {
 		add,
 		set,
 		loading,
+		refetch
 	} = useFields();
 
 	const type = useRef( 'empty' );
+
+	/**
+	 * Refetches the fields when isSelected changes to true.
+	 */
+	useEffect(()=>{
+		if (isSelected) {
+			refetch();
+		}
+	},[isSelected]);
 
 	return (
 		<AppContext.Provider
@@ -44,6 +54,8 @@ export function AppProvider( { children } ) {
 				add,
 				set,
 				loading,
+				refetch,
+				isSelected,
 				...QueryValues,
 			} }
 		>

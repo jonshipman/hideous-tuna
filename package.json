@@ -11,7 +11,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"start": "wp-scripts start ./block/src/index.js --output-path=./block/build",
 		"packages-update": "wp-scripts packages-update",
-		"docker:sync": "rsync -av --exclude=node_modules --exclude=src ./ /home/jon/docker/signaturekc/wp-content/plugins/hideous-tuna",
+		"docker:sync": "rsync -av --exclude=node_modules --exclude=src --exclude=.git ./ /home/jon/docker/signaturekc/wp-content/plugins/hideous-tuna",
 		"bundle": "dir-archiver --src . --dest ../hideous-tuna.zip --exclude .DS_Store .stylelintrc.json .eslintrc .git .gitattributes .github .gitignore composer.json composer.lock node_modules package-lock.json package.json .travis.yml phpcs.xml.dist sass style.css.map"
 	},
 	"dependencies": {
